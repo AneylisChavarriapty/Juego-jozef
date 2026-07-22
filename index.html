@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vida de Ahorros</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="animated-bg" aria-hidden="true">
+    <span class="coin c1">$</span>
+    <span class="coin c2">$</span>
+    <span class="coin c3">$</span>
+    <span class="bill b1"></span>
+    <span class="bill b2"></span>
+    <span class="chart-line l1"></span>
+    <span class="chart-line l2"></span>
+  </div>
+
+  <main id="app">
+    <section id="startScreen" class="screen active hero-screen">
+      <div class="hero-copy">
+        <p class="eyebrow">simulador de vida financiera</p>
+        <h1>Vida de Ahorros</h1>
+        <p class="lead">
+          Empieza desde cero, consigue trabajo, invierte, compra activos y sobrevive mes a mes
+          sin destruir tu salud ni tu billetera.
+        </p>
+        <div class="hero-actions">
+          <button id="startBtn" class="primary-btn">Crear nueva vida</button>
+          <button id="continueBtn" class="ghost-btn">Continuar partida</button>
+        </div>
+      </div>
+
+      <aside class="phone-preview" aria-hidden="true">
+        <div class="preview-top"></div>
+        <div class="preview-card gold">
+          <span>Patrimonio</span>
+          <strong>$10,000</strong>
+        </div>
+        <div class="preview-grid">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="mini-board">
+          <i></i><i></i><i></i><i></i><i></i><i></i>
+          <i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </aside>
+    </section>
+
+    <section id="creatorScreen" class="screen">
+      <div class="section-head">
+        <p class="eyebrow">nuevo personaje</p>
+        <h2>Construye tu primera vida</h2>
+        <p>Cada eleccion cambia tu dinero inicial, gastos y oportunidades laborales.</p>
+      </div>
+
+      <div class="creator-layout">
+        <form id="creatorForm" class="panel form-panel">
+          <label>
+            Nombre
+            <input id="playerName" type="text" maxlength="18" placeholder="Ej: Alex" required />
+          </label>
+
+          <label>
+            Edad inicial
+            <input id="playerAge" type="number" min="18" max="55" value="22" required />
+          </label>
+
+          <label>
+            Nivel de educacion
+            <select id="educationSelect">
+              <option value="secundaria">Secundaria</option>
+              <option value="tecnico">Tecnico</option>
+              <option value="universidad">Universidad</option>
+              <option value="posgrado">Posgrado</option>
+            </select>
+          </label>
+
+          <label>
+            Estilo de vida
+            <select id="lifestyleSelect">
+              <option value="ahorrador">Ahorrador</option>
+              <option value="equilibrado" selected>Equilibrado</option>
+              <option value="gastador">Gastador</option>
+            </select>
+          </label>
+
+          <button class="primary-btn" type="submit">Empezar simulacion</button>
+          <button id="backToStartBtn" class="text-btn" type="button">Volver</button>
+        </form>
+
+        <div class="panel tips-panel">
+          <h3>Como se juega</h3>
+          <ul>
+            <li>Cada mes cobras salario, pagas gastos y aparece un evento.</li>
+            <li>Las decisiones suben o bajan felicidad, salud, estres y educacion.</li>
+            <li>Los trabajos mejores piden educacion, reputacion y habilidades.</li>
+            <li>Ganas al lograr libertad financiera, comprar casa sin deudas o sobrevivir 24 meses con buen patrimonio.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen">
+      <header class="game-header">
+        <div>
+          <p id="lifeSubtitle" class="eyebrow">mes 1</p>
+          <h2 id="playerTitle">Vida financiera</h2>
+        </div>
+        <div class="header-actions">
+          <button id="saveBtn" class="ghost-btn small-btn">Guardar</button>
+          <button id="resetBtn" class="danger-btn small-btn">Reiniciar</button>
+        </div>
+      </header>
+
+      <section class="dashboard">
+        <article class="money-card main-money">
+          <span>Dinero actual</span>
+          <strong id="cashValue">$0</strong>
+          <small id="monthBadge">Mes 1</small>
+        </article>
+        <article class="money-card">
+          <span>Ingresos</span>
+          <strong id="incomeValue">$0</strong>
+          <small>mensuales</small>
+        </article>
+        <article class="money-card">
+          <span>Gastos</span>
+          <strong id="expensesValue">$0</strong>
+          <small>estimados</small>
+        </article>
+        <article class="money-card">
+          <span>Deuda</span>
+          <strong id="debtValue">$0</strong>
+          <small id="debtHint">controlada</small>
+        </article>
+        <article class="money-card">
+          <span>Patrimonio</span>
+          <strong id="netWorthValue">$0</strong>
+          <small>activos - deudas</small>
+        </article>
+      </section>
+
+      <section class="game-layout">
+        <aside class="side-panel">
+          <div class="panel player-card">
+            <div class="avatar">
+              <span id="avatarInitial">V</span>
+            </div>
+            <div>
+              <h3 id="playerNameLabel">Jugador</h3>
+              <p id="jobBadge">Sin trabajo</p>
+            </div>
+          </div>
+
+          <div class="panel stats-panel">
+            <h3>Estado</h3>
+            <div id="statBars"></div>
+          </div>
+
+          <div class="panel board-panel">
+            <h3>Ruta mensual</h3>
+            <div id="lifeBoard" class="life-board"></div>
+          </div>
+
+          <div class="panel goals-panel">
+            <h3>Metas</h3>
+            <div id="goalsList" class="goals-list"></div>
+          </div>
+        </aside>
+
+        <section class="main-panel">
+          <nav class="tabs" aria-label="Secciones del juego">
+            <button class="tab active" data-tab="life">Vida</button>
+            <button class="tab" data-tab="work">Trabajo</button>
+            <button class="tab" data-tab="market">Mercado</button>
+            <button class="tab" data-tab="investments">Inversiones</button>
+            <button class="tab" data-tab="minigames">Minijuegos</button>
+            <button class="tab" data-tab="history">Historial</button>
+          </nav>
+
+          <div id="life" class="tab-panel active">
+            <div class="panel month-panel">
+              <div>
+                <p class="eyebrow">simulador mensual</p>
+                <h3 id="monthTitle">Mes actual</h3>
+                <p id="eventText">Toma decisiones y avanza al siguiente mes.</p>
+              </div>
+              <button id="advanceMonthBtn" class="primary-btn">Avanzar mes</button>
+            </div>
+            <div id="actionList" class="cards-grid"></div>
+          </div>
+
+          <div id="work" class="tab-panel">
+            <div class="panel split-panel">
+              <div>
+                <p class="eyebrow">ofertas laborales</p>
+                <h3>Busca, rechaza o acepta trabajos</h3>
+                <p>Tu educacion, habilidad y reputacion desbloquean mejores sueldos.</p>
+              </div>
+              <button id="newJobOffersBtn" class="ghost-btn">Buscar ofertas</button>
+            </div>
+            <div id="jobOffers" class="cards-grid"></div>
+          </div>
+
+          <div id="market" class="tab-panel">
+            <div class="panel split-panel">
+              <div>
+                <p class="eyebrow">mercado</p>
+                <h3>Compra herramientas, transporte y activos</h3>
+                <p>Algunos objetos reducen gastos o abren acciones nuevas.</p>
+              </div>
+            </div>
+            <div id="marketItems" class="cards-grid"></div>
+          </div>
+
+          <div id="investments" class="tab-panel">
+            <div class="panel split-panel">
+              <div>
+                <p class="eyebrow">riesgo y recompensa</p>
+                <h3>Invierte con cabeza fria</h3>
+                <p>Las inversiones cambian de valor cada mes. No todo lo que brilla es ganancia.</p>
+              </div>
+            </div>
+            <div id="investmentItems" class="cards-grid"></div>
+            <div class="panel">
+              <h3>Cartera actual</h3>
+              <div id="portfolioList" class="portfolio-list"></div>
+            </div>
+          </div>
+
+          <div id="minigames" class="tab-panel">
+            <div id="miniGameCard" class="panel mini-game-card"></div>
+          </div>
+
+          <div id="history" class="tab-panel">
+            <div class="panel">
+              <h3>Activos y compras</h3>
+              <div id="assetList" class="asset-list"></div>
+            </div>
+            <div class="panel">
+              <h3>Historial de movimientos</h3>
+              <div id="historyList" class="history-list"></div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </section>
+
+    <section id="resultScreen" class="screen result-screen">
+      <div class="panel result-card">
+        <p id="resultLabel" class="eyebrow">resultado</p>
+        <h2 id="resultTitle">Resultado</h2>
+        <p id="resultText"></p>
+        <div id="resultStats" class="result-stats"></div>
+        <button id="playAgainBtn" class="primary-btn">Jugar de nuevo</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
